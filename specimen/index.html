@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jurek Hand</title>
+<style>
+@font-face { font-family: "Jurek Hand"; src: url("../dist/JurekHand%5Bwght%5D.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+:root { --bg: #f7f6f2; --fg: #1c1c1e; --muted: #8e8e93; --line: #e3e1db; --card: #fff; --ink: #26246a; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #121214; --fg: #f2f2f2; --muted: #8e8e93; --line: #2a2a2e; --card: #19191c; --ink: #d6d4ff; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+.hand { font-family: "Jurek Hand", cursive; font-feature-settings: "calt" var(--calt, 1); font-weight: var(--w, 400); color: var(--ink); }
+main { max-width: 1080px; margin: 0 auto; padding: 56px 16px 96px; }
+h1 { font-size: clamp(64px, 13vw, 150px); line-height: 1; margin: 0 0 14px; font-weight: var(--w, 400); }
+.meta { color: var(--muted); max-width: 60ch; }
+.bar { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; padding: 14px 0; margin-top: 36px;
+  background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.ctl { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+.ctl output { min-width: 3ch; color: var(--fg); font-variant-numeric: tabular-nums; }
+input[type=range] { width: 150px; accent-color: var(--ink); }
+input[type=checkbox] { accent-color: var(--ink); width: 16px; height: 16px; }
+section { margin-top: 64px; }
+h2 { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; }
+#editor { font-size: var(--size, 64px); line-height: 1.5; outline: none; white-space: pre-wrap; overflow-wrap: anywhere; min-height: 3em; caret-color: var(--ink); }
+.ladder div { display: flex; align-items: baseline; gap: 18px; font-size: clamp(26px, 5vw, 44px); line-height: 1.55; white-space: nowrap; overflow: hidden; }
+.ladder .n { flex: none; width: 34px; font: 12px ui-monospace, Menlo, monospace; color: var(--muted); }
+.pair { padding: 22px 0; border-top: 1px solid var(--line); overflow: hidden; }
+.pair img { display: block; border-radius: 6px; }
+.pair .typed { display: inline-block; white-space: nowrap; line-height: 1.25; margin-top: 4px; padding: 0 .2em; background: #f9f8f4; border-radius: 6px; }
+.pair .who { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.cell { background: var(--card); padding: 14px 12px 10px; }
+.cell .g { font-size: 34px; line-height: 1.35; white-space: nowrap; overflow: hidden; }
+.cell .l { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+.cell .l b { color: var(--fg); font-weight: 600; }
+.cell.synth .l span { color: var(--ink); }
+footer { margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: 14px; }
+footer a { color: var(--fg); }
+footer span { color: var(--muted); }
+</style>
+</head>
+<body>
+<main id="root">
+  <header>
+    <h1 class="hand">Jurek Hand</h1>
+    <p class="meta" id="meta">Font zmienny z Twojego pisma.</p>
+  </header>
+
+  <div class="bar">
+    <label class="ctl">Grubość <input id="w" type="range" min="100" max="900" step="1" value="400"><output id="wv">400</output></label>
+    <label class="ctl">Rozmiar <input id="s" type="range" min="20" max="160" step="1" value="64"><output id="sv">64</output></label>
+    <label class="ctl"><input id="calt" type="checkbox" checked> Warianty liter</label>
+  </div>
+
+  <section>
+    <h2>Pisz</h2>
+    <div id="editor" class="hand" contenteditable="true" spellcheck="false">Zażółć gęślą jaźń.
+W sobotę przejechałem 28 km, a w niedzielę 24.
+Rakieta GSP startuje o 12:30 z działki w Gzowie!</div>
+  </section>
+
+  <section>
+    <h2>Grubość od 100 do 900</h2>
+    <div class="ladder" id="ladder"></div>
+  </section>
+
+  <section>
+    <h2>Notatka i font</h2>
+    <div id="pairs"></div>
+  </section>
+
+  <section>
+    <h2>Znaki i ich warianty</h2>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <footer>
+    <a href="../dist/JurekHand%5Bwght%5D.ttf" download>JurekHand[wght].ttf</a>
+    <a href="../dist/JurekHand%5Bwght%5D.woff2" download>JurekHand[wght].woff2</a>
+    <span>Instalacja na Macu: dwuklik w plik .ttf i „Zainstaluj”.</span>
+  </footer>
+</main>
+<script>
+const root = document.documentElement;
+const $ = id => document.getElementById(id);
+const pairs = [];
+
+function setWeight(v) { root.style.setProperty("--w", v); $("wv").value = v; }
+function setSize(v) { root.style.setProperty("--size", v + "px"); $("sv").value = v; }
+$("w").addEventListener("input", e => setWeight(e.target.value));
+$("s").addEventListener("input", e => setSize(e.target.value));
+$("calt").addEventListener("change", e => root.style.setProperty("--calt", e.target.checked ? 1 : 0));
+if (innerWidth < 600) { $("s").value = 40; setSize(40); }
+
+const sample = "W SOBOTĘ PRZEJECHAŁEM 28 KM";
+for (let w = 100; w <= 900; w += 100) {
+  const row = document.createElement("div");
+  row.innerHTML = `<span class="n">${w}</span><span class="hand" style="font-weight:${w}">${sample}</span>`;
+  $("ladder").append(row);
+}
+
+function fitPairs() {
+  const avail = $("pairs").clientWidth;
+  for (const p of pairs) {
+    const natural = Math.max(p.img.naturalWidth, p.text.scrollWidth / (p.k || 1));
+    const k = Math.min(1, avail / natural);
+    p.k = k;
+    p.img.style.width = p.img.naturalWidth * k + "px";
+    p.text.style.fontSize = (p.cap / 0.7) * k + "px";
+  }
+}
+
+fetch("../dist/ref/lines.json").then(r => r.json()).then(lines => {
+  for (const l of lines) {
+    const el = document.createElement("div");
+    el.className = "pair";
+    el.innerHTML = `<p class="who">Notatka</p><img alt="" src="../dist/${l.src}"><p class="who" style="margin-top:14px">Font</p><div class="typed hand" style="color:${l.color}"></div>`;
+    const text = el.querySelector(".typed");
+    text.textContent = l.text;
+    text.style.fontSize = l.cap / 0.7 + "px";
+    const img = el.querySelector("img");
+    pairs.push({ img, text, cap: l.cap, k: 1 });
+    img.addEventListener("load", fitPairs);
+    $("pairs").append(el);
+  }
+  document.fonts.ready.then(fitPairs);
+});
+addEventListener("resize", fitPairs);
+
+fetch("../dist/info.json").then(r => r.json()).then(info => {
+  $("meta").textContent = `Font zmienny z Twojego pisma: ${info.letters} liter wyciętych z ${info.pages} stron notatek, ${info.glyphs} glifów. Każdy znak ma do 6 prawdziwych wersji, które font sam przeplata w tekście. Małe i wielkie litery wyglądają tak samo, bo piszesz drukowanymi.`;
+  const order = "AĄBCĆDEĘFGHiJKLŁMNŃOÓPQRSŚTUVWXYZŹŻÁÉÍÑÚÝ0123456789.,:;!?'\"-+=/()";
+  const chars = [...order].filter(c => info.chars.includes(c));
+  for (const c of chars) {
+    const synth = info.synthetic.includes(c);
+    const n = info.variants[c] || 1;
+    const cell = document.createElement("div");
+    cell.className = "cell" + (synth ? " synth" : "");
+    cell.innerHTML = `<div class="g hand"></div><div class="l"><b></b><span>${synth ? "złożony" : n + (n === 1 ? " wersja" : n < 5 ? " wersje" : " wersji")}</span></div>`;
+    cell.querySelector(".g").textContent = c.repeat(6);
+    cell.querySelector("b").textContent = c;
+    $("grid").append(cell);
+  }
+});
+</script>
+</body>
+</html>
