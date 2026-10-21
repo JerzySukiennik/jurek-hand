@@ -250,7 +250,7 @@ def fit_spacing(glyphs, lines, core, chars):
     A = np.vstack([np.array(rows), lam * np.eye(2 * len(chars))])
     y = np.concatenate([rhs, lam * np.full(2 * len(chars), m)])
     sol = np.linalg.lstsq(A, y, rcond=None)[0]
-    sol = np.clip(sol, -0.05 * CAP, 0.35 * CAP)
+    sol = np.clip(sol, 8, 0.35 * CAP)
     sb = {c: (sol[2 * i], sol[2 * i + 1]) for c, i in idx.items()}
     space = np.median([g - sb.get(a, (m, m))[1] - sb.get(b, (m, m))[0] for a, b, g in words]) if words else 0.45 * CAP
     return sb, m, float(space), len(rows)

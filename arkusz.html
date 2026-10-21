@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jurek Hand · arkusz testowy</title>
+<style>
+@font-face { font-family: "Jurek Hand"; src: url("font/JurekHand%5Bwght%5D.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@page { size: A4; margin: 0; }
+:root { --ink: #161616; --muted: #8a8a8a; --line: #dcdcdc; }
+* { box-sizing: border-box; }
+html { background: #e9e8e4; }
+body { margin: 0; color: var(--ink); font: 8pt/1.4 -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.sheet { width: 210mm; height: 297mm; margin: 10mm auto; padding: 15mm 15mm 12mm; background: #fff; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 2px 18px rgba(0,0,0,.12); }
+.hand { font-family: "Jurek Hand"; font-feature-settings: "calt" 1; }
+.label { font-size: 6.5pt; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 2.5mm; }
+section { border-top: .3mm solid var(--line); padding-top: 3mm; margin-top: 5mm; }
+.top { display: flex; justify-content: space-between; align-items: baseline; color: var(--muted); font-size: 7pt; letter-spacing: .06em; }
+.hero { display: flex; align-items: flex-end; gap: 9mm; margin-top: 4mm; }
+.big { font-size: 200pt; line-height: .82; font-weight: 400; margin-left: -2mm; }
+.hero h1 { font-size: 46pt; line-height: 1; font-weight: 400; margin: 0 0 3mm; }
+.hero p { margin: 0; font-size: 8.5pt; color: #444; max-width: 72mm; }
+.alpha { font-size: 25pt; line-height: 1.5; word-spacing: .02em; }
+.signs { font-size: 25pt; line-height: 1.5; word-spacing: .2em; }
+.row { display: flex; align-items: baseline; gap: 5mm; white-space: nowrap; overflow: hidden; }
+.row .n { flex: none; width: 11mm; font-size: 7pt; color: var(--muted); font-variant-numeric: tabular-nums; }
+.weights .row { font-size: 26pt; line-height: 1.55; }
+.sizes .row { line-height: 1.55; }
+.pangram { font-size: 17pt; line-height: 1.45; margin: 0; }
+.para { margin: 0; text-align: left; }
+.p12 { font-size: 12pt; line-height: 1.5; }
+.p16 { font-size: 16pt; line-height: 1.45; margin-top: 3mm; }
+.note { font-size: 13pt; line-height: 1.55; }
+.note ul { margin: 0; padding-left: 7mm; list-style: "-   "; }
+.variants { font-size: 26pt; line-height: 1.45; word-spacing: .4em; }
+.foot { margin-top: auto; padding-top: 4mm; display: flex; justify-content: space-between; color: var(--muted); font-size: 7pt; letter-spacing: .06em; }
+@media print {
+  html { background: none; }
+  .sheet { margin: 0; box-shadow: none; page-break-after: always; break-after: page; }
+  .sheet:last-child { page-break-after: auto; break-after: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <div class="top"><span>JUREK HAND</span><span>ARKUSZ TESTOWY 1 / 2</span></div>
+  <div class="hero">
+    <div class="big hand">Ą</div>
+    <div>
+      <h1 class="hand">Jurek Hand</h1>
+      <p>Font zmienny z pisma Jurka, zbudowany z 7 stron jego notatek. Grubość od 100 do 900, do 6 prawdziwych wersji każdego znaku przeplatanych w tekście. Małe i wielkie litery wyglądają tak samo, bo Jurek pisze drukowanymi.</p>
+    </div>
+  </div>
+
+  <section>
+    <p class="label">Alfabet</p>
+    <div class="alpha hand">A Ą B C Ć D E Ę F G H I J K L Ł M N Ń O Ó P Q R S Ś T U V W X Y Z Ź Ż</div>
+  </section>
+
+  <section>
+    <p class="label">Cyfry i znaki</p>
+    <div class="signs hand">0 1 2 3 4 5 6 7 8 9 . , : ; ! ? ' " - + = / ( )</div>
+  </section>
+
+  <section class="weights">
+    <p class="label">Grubość</p>
+    <div class="row"><span class="n">100</span><span class="hand" style="font-weight:100">Zażółć gęślą jaźń 2026</span></div>
+    <div class="row"><span class="n">300</span><span class="hand" style="font-weight:300">Zażółć gęślą jaźń 2026</span></div>
+    <div class="row"><span class="n">400</span><span class="hand" style="font-weight:400">Zażółć gęślą jaźń 2026</span></div>
+    <div class="row"><span class="n">600</span><span class="hand" style="font-weight:600">Zażółć gęślą jaźń 2026</span></div>
+    <div class="row"><span class="n">900</span><span class="hand" style="font-weight:900">Zażółć gęślą jaźń 2026</span></div>
+  </section>
+
+
+  <div class="foot"><span>jurek-hand.gzowo.fun</span><span>wght 400 · calt</span></div>
+</div>
+
+<div class="sheet">
+  <div class="top"><span>JUREK HAND</span><span>ARKUSZ TESTOWY 2 / 2</span></div>
+
+  <section style="border-top:0;margin-top:2mm;padding-top:0">
+    <p class="label">Zdania</p>
+    <p class="pangram hand">Pchnąć w tę łódź jeża lub ośm skrzyń fig.</p>
+    <p class="pangram hand">Mężny bądź, chroń pułk twój i sześć flag!</p>
+    <p class="pangram hand">The quick brown fox jumps over the lazy dog.</p>
+    <p class="pangram hand">Por la mañana me despierto a las siete.</p>
+  </section>
+
+  <section>
+    <p class="label">Lorem ipsum · 12 pt i 16 pt</p>
+    <p class="para p12 hand">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    <p class="para p16 hand">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  </section>
+
+  <section class="sizes">
+    <p class="label">Rozmiary</p>
+    <div class="row"><span class="n">9 pt</span><span class="hand" style="font-size:9pt">W sobotę przejechałem 28 km, a w niedzielę 24. Razem wyszło 52 km.</span></div>
+    <div class="row"><span class="n">12 pt</span><span class="hand" style="font-size:12pt">W sobotę przejechałem 28 km, a w niedzielę 24. Razem wyszło 52 km.</span></div>
+    <div class="row"><span class="n">16 pt</span><span class="hand" style="font-size:16pt">W sobotę przejechałem 28 km, a w niedzielę 24.</span></div>
+    <div class="row"><span class="n">24 pt</span><span class="hand" style="font-size:24pt">W sobotę przejechałem 28 km.</span></div>
+    <div class="row"><span class="n">36 pt</span><span class="hand" style="font-size:36pt">W sobotę 28 km.</span></div>
+  </section>
+
+  <section>
+    <p class="label">Notatka</p>
+    <div class="note hand">
+      Temat: Pole całkowite graniastosłupów
+      <ul>
+        <li>Pc - pole całkowite, Pp - pole podstawy, Pb - pole boczne</li>
+        <li>Pc = 2Pp + Pb</li>
+        <li>V = Pp x H (objętość)</li>
+      </ul>
+      Odp. Pole całkowite sześcianu o boku 7 wynosi 294.
+    </div>
+  </section>
+
+  <section>
+    <p class="label">Warianty · ta sama litera nigdy dwa razy tak samo</p>
+    <div class="variants hand">AAAAAA EEEEEE SSSSSS KKKKKK 888888</div>
+  </section>
+
+  <div class="foot"><span>jurek-hand.gzowo.fun</span><span>Drukuj w skali 100%, papier A4</span></div>
+</div>
+
+</body>
+</html>
