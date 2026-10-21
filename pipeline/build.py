@@ -518,10 +518,12 @@ def main():
     }
     pickle.dump(report, open(WORK / "report.pkl", "wb"))
     import json
+    import time
+    build_id = int(time.time())
     (DIST / "info.json").write_text(json.dumps({
         "chars": have, "synthetic": sorted(synthetic), "variants": report["variants"],
         "samples": {c: len(v) for c, v in by_char.items()}, "glyphs": len(order), "pages": len({g["page"] for g in glyphs}),
-        "letters": len(glyphs)}, ensure_ascii=False))
+        "letters": len(glyphs), "build": build_id}, ensure_ascii=False))
     print("synthetic", "".join(sorted(synthetic)), "missing", "".join(missing_pl))
     print("saved", DIST)
 

@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jurek Hand</title>
+<meta name="description" content="Variable handwriting font built 1:1 from Jurek's school notes.">
 <style>
-@font-face { font-family: "Jurek Hand"; src: url("../dist/JurekHand%5Bwght%5D.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
 :root { --bg: #f7f6f2; --fg: #1c1c1e; --muted: #8e8e93; --line: #e3e1db; --card: #fff; --ink: #26246a; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { --bg: #121214; --fg: #f2f2f2; --muted: #8e8e93; --line: #2a2a2e; --card: #19191c; --ink: #d6d4ff; }
@@ -46,7 +46,7 @@ footer span { color: var(--muted); }
 <main id="root">
   <header>
     <h1 class="hand">Jurek Hand</h1>
-    <p class="meta" id="meta">Font zmienny z Twojego pisma.</p>
+    <p class="meta" id="meta">Font zmienny z pisma Jurka.</p>
   </header>
 
   <div class="bar">
@@ -78,8 +78,8 @@ Rakieta GSP startuje o 12:30 z działki w Gzowie!</div>
   </section>
 
   <footer>
-    <a href="../dist/JurekHand%5Bwght%5D.ttf" download>JurekHand[wght].ttf</a>
-    <a href="../dist/JurekHand%5Bwght%5D.woff2" download>JurekHand[wght].woff2</a>
+    <a href="font/JurekHand%5Bwght%5D.ttf" download>JurekHand[wght].ttf</a>
+    <a href="font/JurekHand%5Bwght%5D.woff2" download>JurekHand[wght].woff2</a>
     <span>Instalacja na Macu: dwuklik w plik .ttf i „Zainstaluj”.</span>
   </footer>
 </main>
@@ -113,11 +113,20 @@ function fitPairs() {
   }
 }
 
-fetch("../dist/ref/lines.json").then(r => r.json()).then(lines => {
+const fresh = { cache: "no-store" };
+fetch("font/info.json", fresh).then(r => r.json()).then(info => {
+  const face = new FontFace("Jurek Hand", `url("font/JurekHand%5Bwght%5D.woff2?v=${info.build}")`, { weight: "100 900" });
+  face.load().then(f => { document.fonts.add(f); fitPairs(); });
+  showInfo(info);
+  return fetch("font/ref/lines.json", fresh).then(r => r.json()).then(lines => showPairs(lines, info.build));
+});
+addEventListener("resize", fitPairs);
+
+function showPairs(lines, v) {
   for (const l of lines) {
     const el = document.createElement("div");
     el.className = "pair";
-    el.innerHTML = `<p class="who">Notatka</p><img alt="" src="../dist/${l.src}"><p class="who" style="margin-top:14px">Font</p><div class="typed hand" style="color:${l.color}"></div>`;
+    el.innerHTML = `<p class="who">Notatka</p><img alt="" src="font/${l.src}?v=${v}"><p class="who" style="margin-top:14px">Font</p><div class="typed hand" style="color:${l.color}"></div>`;
     const text = el.querySelector(".typed");
     text.textContent = l.text;
     text.style.fontSize = l.cap / 0.7 + "px";
@@ -127,11 +136,10 @@ fetch("../dist/ref/lines.json").then(r => r.json()).then(lines => {
     $("pairs").append(el);
   }
   document.fonts.ready.then(fitPairs);
-});
-addEventListener("resize", fitPairs);
+}
 
-fetch("../dist/info.json").then(r => r.json()).then(info => {
-  $("meta").textContent = `Font zmienny z Twojego pisma: ${info.letters} liter wyciętych z ${info.pages} stron notatek, ${info.glyphs} glifów. Każdy znak ma do 6 prawdziwych wersji, które font sam przeplata w tekście. Małe i wielkie litery wyglądają tak samo, bo piszesz drukowanymi.`;
+function showInfo(info) {
+  $("meta").textContent = `Font zmienny z pisma Jurka: ${info.letters} liter wyciętych z ${info.pages} stron notatek, ${info.glyphs} glifów. Każdy znak ma do 6 prawdziwych wersji, które font sam przeplata w tekście. Małe i wielkie litery wyglądają tak samo, bo Jurek pisze drukowanymi.`;
   const order = "AĄBCĆDEĘFGHiJKLŁMNŃOÓPQRSŚTUVWXYZŹŻÁÉÍÑÚÝ0123456789.,:;!?'\"-+=/()";
   const chars = [...order].filter(c => info.chars.includes(c));
   for (const c of chars) {
@@ -144,7 +152,7 @@ fetch("../dist/info.json").then(r => r.json()).then(info => {
     cell.querySelector("b").textContent = c;
     $("grid").append(cell);
   }
-});
+}
 </script>
 </body>
 </html>

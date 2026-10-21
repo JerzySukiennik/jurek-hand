@@ -8,7 +8,7 @@ WORK = ROOT / "Niepotrzebne" / "work"
 PAGES = WORK / "pages"
 SEG = WORK / "seg"
 LABELS = ROOT / "data" / "labels"
-DIST = ROOT / "dist"
+DIST = ROOT / "font"
 
 MIN_AREA = 6
 ROI = {"p-005": (130, 1990)}
